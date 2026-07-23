@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trilingual Product & Project Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth !important;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #0A0A0A;
+            background: #0A0A0A;
+            overflow-x: hidden;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            min-height: 100vh;
+            background: #F5F3F0;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-inner {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            padding: 80px 60px;
+            position: relative;
+        }
+
+        .hero-photo {
+            flex: 0 0 38%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .hero-photo img {
+            max-width: 100%;
+            max-height: 60vh;
+            object-fit: contain;
+            display: block;
+            width: auto;
+            height: auto;
+            border-radius: 0;
+            object-position: unset;
+        }
+
+        .hero-content {
+            flex: 1;
+            padding-left: 60px;
+        }
+
+        .hero-label {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #888;
+            letter-spacing: 0.02em;
+            margin-bottom: 8px;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: clamp(2.2rem, 4.5vw, 5rem);
+            line-height: 1.1;
+            color: #0A0A0A;
+            margin-bottom: 24px;
+        }
+
+        .hero-title span {
+            display: block;
+        }
+
+        .hero-title .amp {
+            color: #0A0A0A;
+            font-style: italic;
+            font-weight: 600;
+            font-size: 1.2rem;
+            letter-spacing: 0.02em;
+            display: block;
+            line-height: 1;
+            margin: 4px 0;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #444;
+            max-width: 520px;
+            font-weight: 400;
+        }
+
+        /* ===== WHY ME SECTION ===== */
+        .why-me {
+            background: #0A0A0A;
+            color: #fff;
+            padding: 120px 60px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .why-me::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 30% 40%, rgba(230, 57, 70, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .why-me-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .why-me-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 3.5vw, 3.8rem);
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.1;
+            margin-bottom: 120px;
+            display: block;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .why-me-title.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .why-me-paragraph {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.2rem, 2.5vw, 2.4rem);
+            font-weight: 400;
+            line-height: 1.4;
+            color: rgba(255,255,255,0.25);
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .why-me-paragraph.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .why-me-paragraph .kw {
+            color: #fff;
+            font-weight: 600;
+            position: relative;
+            display: inline-block;
+            transition: color 0.5s ease 0.3s;
+        }
+
+        .why-me-paragraph.visible .kw {
+            transition: color 0.5s ease 0.8s;
+        }
+
+        .why-me-paragraph .accent {
+            color: #E63946;
+            font-style: italic;
+            font-weight: 500;
+            transition: color 0.5s ease 0.8s;
+        }
+
+        .why-me-paragraph.visible .accent {
+            transition: color 0.5s ease 1.2s;
+        }
+
+        .why-me-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .why-me-tags.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .why-me-tag {
+            background: #E63946;
+            color: #fff;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        /* ===== I'M GREAT AT SECTION — STICKY STACK ===== */
+        .great-at {
+            background: #F5F3F0;
+            position: relative;
+        }
+
+        .great-at-header {
+            padding: 120px 60px 120px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .great-at-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 3.5vw, 3.8rem);
+            font-weight: 600;
+            color: #0A0A0A;
+            line-height: 1.1;
+        }
+
+        .cards-stack {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 60px 200px;
+        }
+
+        .card-wrapper {
+            position: sticky;
+            width: 100%;
+            margin-bottom: 60px;
+        }
+
+        /* All cards stick at the same top so each fully covers the previous */
+        .card-wrapper:nth-child(1) { top: 80px; }
+        .card-wrapper:nth-child(2) { top: 80px; }
+        .card-wrapper:nth-child(3) { top: 80px; }
+        .card-wrapper:nth-child(4) { top: 80px; }
+
+        .service-card {
+            width: 100%;
+            border-radius: 24px;
+            padding: 56px 60px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 -10px 50px rgba(0,0,0,0.15);
+        }
+
+        .service-card-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            color: rgba(0,0,0,0.4);
+            font-style: italic;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .service-card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.3rem, 2.2vw, 2.2rem);
+            font-weight: 600;
+            color: #0A0A0A;
+            line-height: 1.2;
+            margin-bottom: 24px;
+        }
+
+        .service-card-desc {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #333;
+            max-width: 800px;
+        }
+
+        /* Card colors — warm red tonal palette */
+        .card-1 { background: #FF6B6B; }
+        .card-2 { background: #FFD9D9; }
+        .card-3 { background: #F0C4A3; }
+        .card-4 { background: #F5E8DC; }
+
+        /* Card 3 — warm orange tone, dark text stays */
+        .card-3 .service-card-number { color: rgba(0,0,0,0.4); }
+        .card-3 .service-card-title { color: #0A0A0A; }
+        .card-3 .service-card-desc { color: #333; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .hero-inner {
+                flex-direction: column;
+                align-items: center;
+                padding: 40px 24px 100px;
+                text-align: center;
+            }
+
+            .hero-photo {
+                flex: none;
+                width: 100%;
+                max-width: 400px;
+                padding-bottom: 0;
+                margin-bottom: 30px;
+            }
+
+            .hero-content {
+                padding-left: 0;
+                padding-bottom: 0;
+            }
+
+            .hero-title {
+                font-size: clamp(2rem, 8vw, 3.2rem);
+            }
+
+            .hero-subtitle {
+                margin: 0 auto;
+            }
+
+            .why-me {
+                padding: 80px 24px;
+            }
+
+            .why-me-paragraph {
+                font-size: clamp(1rem, 4vw, 1.6rem);
+                margin-bottom: 30px;
+            }
+
+            .great-at-header {
+                padding: 80px 24px 80px;
+            }
+
+            .cards-stack {
+                padding: 0 24px 120px;
+            }
+
+            .service-card {
+                padding: 36px 28px;
+            }
+
+            .card-wrapper {
+                top: 20px !important;
+            }
+        }
+        /* ===== STATIC TOP NAV ===== */
+        .top-nav {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            padding: 28px 0 0;
+        }
+        .top-nav a {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: #999;
+            text-decoration: none;
+            padding: 10px 26px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.02em;
+        }
+        .top-nav a.active {
+            background: #E63946;
+            color: #fff;
+        }
+        .top-nav a:hover:not(.active) {
+            color: #0A0A0A;
+        }
+
+        /* ===== GET IN TOUCH BUTTON ===== */
+        .get-in-touch {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 1000;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: #fff;
+            text-decoration: none;
+            background: #E63946;
+            backdrop-filter: none;
+            border-radius: 50px;
+            padding: 12px 28px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.12);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            border: none;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .get-in-touch:hover {
+            color: #fff;
+            background: #C62828;
+            box-shadow: 0 6px 36px rgba(0,0,0,0.18);
+        }
+
+        .get-in-touch .arrow {
+            display: inline-block;
+            margin-left: 6px;
+            color: #fff;
+            transition: transform 0.3s ease;
+        }
+
+        .get-in-touch:hover .arrow {
+            transform: translateX(3px);
+        }
+
+        @media (max-width: 600px) {
+            .get-in-touch {
+                top: 16px;
+                right: 16px;
+                font-size: 0.8rem;
+                padding: 10px 20px;
+            }
+        }
+
+        /* ===== CONTACT SECTION ===== */
+        .contact-section {
+            background: #0A0A0A;
+            color: #fff;
+            padding: 160px 60px;
+            text-align: center;
+        }
+
+        .contact-inner {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .contact-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 3.5vw, 3.8rem);
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .contact-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: #999;
+            margin-bottom: 40px;
+        }
+
+        .contact-email {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #E63946;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(230, 57, 70, 0.3);
+            padding-bottom: 4px;
+            transition: border-color 0.3s ease;
+        }
+
+        .contact-email:hover {
+            border-color: #E63946;
+        }
+
+        @media (max-width: 600px) {
+            .contact-section {
+                padding: 100px 24px;
+            }
+        }
+
+        /* ===== CONTACT MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: #2A2A2A;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 840px;
+            padding: 48px 56px;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #3A3A3A;
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: #555;
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 3.5vw, 3.8rem);
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 48px;
+            line-height: 1.1;
+        }
+
+        .modal-body {
+            display: flex;
+            gap: 60px;
+        }
+
+        .modal-form {
+            flex: 1;
+        }
+
+        .form-group {
+            margin-bottom: 28px;
+        }
+
+        .form-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #fff;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: #1E1E1E;
+            border: 1px solid #3A3A3A;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            color: #fff;
+            outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus {
+            border-color: #E63946;
+        }
+
+        .form-input::placeholder {
+            color: #777;
+        }
+
+        textarea.form-input {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-submit {
+            width: 100%;
+            background: #E63946;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            border: none;
+            border-radius: 50px;
+            padding: 16px 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.3s ease;
+            margin-top: 8px;
+        }
+
+        .form-submit:hover {
+            background: #C62828;
+        }
+
+        .form-submit .arrow {
+            color: #fff;
+            transition: transform 0.3s ease;
+        }
+
+        .form-submit:hover .arrow {
+            transform: translateX(3px);
+        }
+
+        .modal-info {
+            flex: 0 0 220px;
+            margin-top: 0;
+        }
+
+        .modal-info-label {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 12px;
+        }
+
+        .modal-email-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 40px;
+            flex-wrap: nowrap;
+        }
+
+        .modal-email {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #fff;
+            white-space: nowrap;
+        }
+
+        .copy-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            background: #E63946;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .copy-btn:hover {
+            background: #C62828;
+        }
+
+        .copy-btn svg {
+            width: 14px;
+            height: 14px;
+            fill: none;
+            stroke: #fff;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .copy-tooltip {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: #E63946;
+            margin-top: 6px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .copy-tooltip.visible {
+            opacity: 1;
+        }
+
+        .social-link {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .social-link svg {
+            width: 18px;
+            height: 18px;
+            fill: #fff;
+        }
+
+        @media (max-width: 720px) {
+            .modal-content {
+                padding: 32px 24px;
+                border-radius: 20px;
+            }
+            .modal-body {
+                flex-direction: column;
+                gap: 40px;
+            }
+            .modal-info {
+                flex: none;
+                margin-top: 0;
+            }
+            .modal-title {
+                margin-bottom: 32px;
+            }
+        }
+        /* ===== MOBILE NAV FIX ===== */
+        @media (max-width: 720px) {
+            body { padding-top: 52px; }
+            .top-nav {
+                position: fixed;
+                top: 0; left: 0; right: 0;
+                height: 52px;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 0 16px;
+                background: #0A0A0A;
+                z-index: 999;
+                gap: 2px;
+            }
+            .top-nav a {
+                font-size: 0.72rem;
+                padding: 6px 12px;
+                color: #777;
+            }
+            .get-in-touch {
+                top: 12px;
+                right: 12px;
+                font-size: 0.7rem;
+                padding: 7px 14px;
+                z-index: 1001;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== GET IN TOUCH BUTTON ===== -->
+    <button class="get-in-touch" id="getInTouchBtn">Get in Touch<span class="arrow">&rarr;</span></button>
+
+    <!-- ===== STATIC TOP NAV ===== -->
+    <nav class="top-nav" id="topNav">
+        <a href="#home" class="active">Home</a>
+        <a href="works.html">Works</a>
+        <a href="about.html">About</a>
+    </nav>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" id="home">
+        <div class="hero-inner">
+            <div class="hero-photo">
+                <img src="images/profile.jpg" alt="Professional portrait">
+            </div>
+            <div class="hero-content">
+                <div class="hero-label">Trilingual</div>
+                <h1 class="hero-title">
+                    <span>Product</span><span class="amp">&amp;</span>
+                    <span>Project Manager</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Across 10+ years of navigating diverse industries, functions, and corporate cultures, I have executed one core mission consistently: bridging the gap between business and technology across China, Europe, and US.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== WHY ME SECTION ===== -->
+    <section class="why-me" id="about">
+        <div class="why-me-inner">
+            <span class="why-me-title">Why Me</span>
+            <p class="why-me-paragraph" id="para1">
+                I <span class="kw">bridge</span> engineering, design, and business <span class="accent">across continents</span>, <span class="kw">translating</span> between what people say, what they need, and what <span class="accent">actually delivers</span>.
+            </p>
+            <p class="why-me-paragraph" id="para2">
+                I <span class="kw">embed</span> into remote teams <span class="accent">without onboarding</span>, <span class="kw">absorb</span> new domains and technologies fast, and <span class="kw">align</span> conflicting stakeholders toward a single goal.
+            </p>
+            <div class="why-me-tags" id="whyMeTags">
+                <span class="why-me-tag">on time</span>
+                <span class="why-me-tag">under budget</span>
+                <span class="why-me-tag">no drama</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== I'M GREAT AT SECTION — STICKY STACK ===== -->
+    <section class="great-at" id="works">
+        <div class="great-at-header">
+            <h2 class="great-at-title">I'm great at</h2>
+        </div>
+        <div class="cards-stack">
+            <!-- Card 1 -->
+            <div class="card-wrapper">
+                <div class="service-card card-1">
+                    <span class="service-card-number">01</span>
+                    <h3 class="service-card-title">Full Product Lifecycle Ownership</h3>
+                    <p class="service-card-desc">
+                        I own and drive the complete product development lifecycle, managing everything from the initial stage to the final roll out.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card-wrapper">
+                <div class="service-card card-2">
+                    <span class="service-card-number">02</span>
+                    <h3 class="service-card-title">Operational Architecture &amp; Infrastructure Implementation</h3>
+                    <p class="service-card-desc">
+                        I have deep expertise in hands-on CRM/ERP architecture management, and formal optimization frameworks (agile working modes, lean manufacturing methodologies).
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="card-wrapper">
+                <div class="service-card card-3">
+                    <span class="service-card-number">03</span>
+                    <h3 class="service-card-title">Cross-Functional Translation &amp; Stakeholder Alignment</h3>
+                    <p class="service-card-desc">
+                        Driven by a deep, natural insight into human nature, human needs, and team dynamics, I excel at "seeing" the needs of people from diverse cultures and backgrounds.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="card-wrapper">
+                <div class="service-card card-4">
+                    <span class="service-card-number">04</span>
+                    <h3 class="service-card-title">High-Ambiguity Resilience</h3>
+                    <p class="service-card-desc">
+                        I specialize in stepping into highly unstructured, chaotic, or conflicting corporate environments and turning ambiguous business challenges into structured, repeatable workflow realities.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT SECTION ===== -->
+    <section class="contact-section" id="contact">
+        <div class="contact-inner">
+            <h2 class="contact-title">Let's work together</h2>
+            <p class="contact-subtitle">I'm always open to new opportunities and conversations.</p>
+            <a href="mailto:chen12.cheng27@gmail.com" class="contact-email">chen12.cheng27@gmail.com</a>
+        </div>
+    </section>
+
+    <script>
+        // ===== BOTTOM NAV: Scroll spy =====
+        (function() {
+            var navLinks = document.querySelectorAll('.top-nav a');
+            var sections = [];
+            navLinks.forEach(function(link) {
+                var id = link.getAttribute('href');
+                if (id && id.startsWith('#')) {
+                    var el = document.querySelector(id);
+                    if (el) sections.push({ id: id, el: el });
+                }
+            });
+
+            function updateActive() {
+                var scrollPos = window.scrollY + window.innerHeight / 2;
+                var activeId = sections[0] ? sections[0].id : '';
+                for (var i = sections.length - 1; i >= 0; i--) {
+                    if (sections[i].el.offsetTop <= scrollPos) {
+                        activeId = sections[i].id;
+                        break;
+                    }
+                }
+                navLinks.forEach(function(link) {
+                    link.classList.toggle('active', link.getAttribute('href') === activeId);
+                });
+            }
+
+            window.addEventListener('scroll', updateActive, { passive: true });
+            updateActive();
+        })();
+
+        // ===== WHY ME: Scroll-triggered paragraph animation =====
+        (function() {
+            var label = document.querySelector('.why-me-title');
+            var para1 = document.getElementById('para1');
+            var para2 = document.getElementById('para2');
+            var tags = document.getElementById('whyMeTags');
+            var animated = false;
+
+            function triggerAnimation() {
+                if (animated) return;
+                animated = true;
+
+                setTimeout(function() { label.classList.add('visible'); }, 100);
+                setTimeout(function() { para1.classList.add('visible'); }, 600);
+                setTimeout(function() { para2.classList.add('visible'); }, 1800);
+                setTimeout(function() { tags.classList.add('visible'); }, 3000);
+            }
+
+            var observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        triggerAnimation();
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            observer.observe(document.querySelector('.why-me'));
+        })();
+        // ===== CONTACT MODAL: inline-only, no JS needed =====
+    </script>
+
+    <!-- ===== CONTACT MODAL ===== -->
+    <div class="modal-overlay" id="contactModal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalCloseBtn" aria-label="Close">&times;</button>
+            <h2 class="modal-title">Let's Work <span style="color:#E63946;">Together</span></h2>
+            <div class="modal-body">
+                <form class="modal-form" id="modalForm">
+                    <div class="form-group">
+                        <label class="form-label" for="modalName">Name</label>
+                        <input class="form-input" type="text" id="modalName" name="name" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="modalEmail">Business Email</label>
+                        <input class="form-input" type="email" id="modalEmail" name="email" placeholder="you@company.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="modalMessage">Message (Optional)</label>
+                        <textarea class="form-input" id="modalMessage" name="message" placeholder="Tell me about your project..."></textarea>
+                    </div>
+                    <button type="submit" class="form-submit">
+                        Go<span class="arrow">&rarr;</span>
+                    </button>
+                </form>
+                <div class="modal-info">
+                    <div class="modal-info-label">Questions?</div>
+                    <div class="modal-email-row">
+                        <span class="modal-email" id="modalEmailText">chen12.cheng27@gmail.com</span>
+                        <button class="copy-btn" id="copyEmailBtn" aria-label="Copy email">
+                            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </button>
+                    </div>
+                    <div class="copy-tooltip" id="copyTooltip">Copied!</div>
+
+                    <div class="modal-info-label">Socials</div>
+                    <a href="https://linkedin.com" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var modal = document.getElementById('contactModal');
+        var openBtn = document.getElementById('getInTouchBtn');
+        var closeBtn = document.getElementById('modalCloseBtn');
+        var form = document.getElementById('modalForm');
+        var copyBtn = document.getElementById('copyEmailBtn');
+
+        if (openBtn) {
+            openBtn.onclick = function() {
+                if (modal) {
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            };
+        }
+
+        if (closeBtn) {
+            closeBtn.onclick = function() {
+                if (modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            };
+        }
+
+        if (modal) {
+            modal.onclick = function(evt) {
+                if (evt.target === modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            };
+        }
+
+        if (form) {
+            form.onsubmit = function(event) {
+                event.preventDefault();
+                var name = document.getElementById('modalName').value;
+                var email = document.getElementById('modalEmail').value;
+                var message = document.getElementById('modalMessage').value;
+                var subject = 'Contact from ' + name;
+                var body = 'Name: ' + name + '\nEmail: ' + email + '\n\nMessage:\n' + (message || 'No message provided.');
+                var mailto = 'mailto:chen12.cheng27@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+                window.location.href = mailto;
+                if (modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            };
+        }
+
+        if (copyBtn) {
+            copyBtn.onclick = function() {
+                var emailEl = document.getElementById('modalEmailText');
+                var email = emailEl ? emailEl.textContent : 'chen12.cheng27@gmail.com';
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(email).then(function() {
+                        showCopyTip();
+                    }).catch(function() {
+                        fallbackCopy(email);
+                    });
+                } else {
+                    fallbackCopy(email);
+                }
+            };
+        }
+
+        function fallbackCopy(text) {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); } catch(e) {}
+            document.body.removeChild(ta);
+            showCopyTip();
+        }
+
+        function showCopyTip() {
+            var tip = document.getElementById('copyTooltip');
+            if (tip) {
+                tip.classList.add('visible');
+                setTimeout(function() { tip.classList.remove('visible'); }, 2000);
+            }
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salesforce CRM Integration — Chen Cheng</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #0A0A0A;
+            background: #fff;
+            overflow-x: hidden;
+        }
+
+        /* ===== TOP BAR ===== */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            mix-blend-mode: difference;
+        }
+        .back-link {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: 0.03em;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .back-link:hover { opacity: 1; }
+        .back-link .arrow { margin-right: 6px; }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            background: #0A0A0A;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            padding: 120px 60px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -15%;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(230,57,70,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-eyebrow {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: #E63946;
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.2rem, 4.5vw, 4rem);
+            font-weight: 600;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.5);
+            max-width: 620px;
+            margin-bottom: 28px;
+        }
+
+        /* Hero Tags */
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .hero-tag {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            color: rgba(255,255,255,0.7);
+            padding: 8px 18px;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50px;
+            transition: all 0.25s ease;
+        }
+        .hero-tag:hover {
+            color: #fff;
+            border-color: rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.06);
+        }
+
+        /* Read More Button */
+        .read-more-btn {
+            position: absolute;
+            bottom: 40px;
+            right: 60px;
+            z-index: 2;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            color: #fff;
+            background: none;
+            border: 1px solid rgba(255,255,255,0.25);
+            border-radius: 50px;
+            padding: 14px 32px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .read-more-btn:hover {
+            background: rgba(255,255,255,0.08);
+            border-color: rgba(255,255,255,0.5);
+        }
+        .read-more-btn .arrow-down {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        .read-more-btn:hover .arrow-down {
+            transform: translateY(3px);
+        }
+        .read-more-btn.revealed {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        /* Hide Button */
+        .hide-btn {
+            display: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #999;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+        .hide-btn:hover { color: #E63946; }
+        .hide-btn .arrow-up {
+            display: inline-block;
+            margin-right: 4px;
+            transition: transform 0.3s ease;
+        }
+        .hide-btn:hover .arrow-up { transform: translateY(-2px); }
+        .detail-content.visible .hide-btn { display: inline-block; }
+
+        /* Section Header Row (heading + hide btn on same red line) */
+        .section-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-top: 2px solid #E63946;
+            padding-top: 32px;
+            margin-bottom: 24px;
+        }
+        .section-header-row .section-heading {
+            border-top: none;
+            padding-top: 0;
+            margin-bottom: 0;
+        }
+
+        /* Hidden Detail Content */
+        .detail-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .detail-content.visible {
+            display: block;
+            animation: fadeSlideIn 0.6s ease forwards;
+        }
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== CONTENT ===== */
+        .content-section {
+            padding: 0 60px 64px;
+            background: #fff;
+        }
+        .content-inner {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .section-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+            font-weight: 600;
+            color: #0A0A0A;
+            margin-bottom: 24px;
+            padding-top: 32px;
+            border-top: 2px solid #E63946;
+        }
+        .content-inner p {
+            font-size: 1.05rem;
+            line-height: 1.85;
+            color: #444;
+            margin-bottom: 18px;
+        }
+        .content-inner ul {
+            margin: 8px 0 24px 0;
+            list-style: none;
+        }
+        .content-inner ul li {
+            font-size: 1.02rem;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 12px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .content-inner ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #E63946;
+        }
+        .hook {
+            font-weight: 600;
+            color: #0A0A0A;
+        }
+
+        /* ===== ACCORDION ===== */
+        .accordion-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+            font-weight: 600;
+            color: #0A0A0A;
+            padding-top: 32px;
+            border-top: 2px solid #E63946;
+            margin-bottom: 24px;
+        }
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .accordion-item {
+            border: 1px solid #E8E5E0;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+        .accordion-item:hover {
+            border-color: #CCC;
+        }
+        .accordion-item.open {
+            border-color: #E63946;
+            border-width: 1.5px;
+        }
+        .accordion-header {
+            width: 100%;
+            padding: 24px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #0A0A0A;
+            text-align: left;
+            gap: 16px;
+            transition: background 0.2s;
+        }
+        .accordion-header:hover {
+            background: #F9F8F6;
+        }
+        .accordion-header .label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #E63946;
+            white-space: nowrap;
+        }
+        .accordion-header .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            flex: 1;
+        }
+        .accordion-header .icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            transition: transform 0.25s ease;
+        }
+        .accordion-item.open .accordion-header .icon {
+            transform: rotate(45deg);
+        }
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.35s ease, padding 0.35s ease;
+        }
+        .accordion-item.open .accordion-body {
+            max-height: 600px;
+        }
+        .accordion-body-inner {
+            padding: 0 28px 28px;
+            font-size: 0.98rem;
+            line-height: 1.8;
+            color: #444;
+        }
+        .accordion-body-inner p {
+            margin-bottom: 14px;
+        }
+        .accordion-body-inner ul {
+            list-style: none;
+            margin: 8px 0 0;
+        }
+        .accordion-body-inner ul li {
+            padding-left: 18px;
+            position: relative;
+            margin-bottom: 8px;
+            line-height: 1.7;
+        }
+        .accordion-body-inner ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 9px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #E63946;
+        }
+
+        /* ===== BOTTOM NAV ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            gap: 4px;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 6px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.12);
+        }
+        .bottom-nav a {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #555;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.02em;
+        }
+        .bottom-nav a.active {
+            background: #E63946;
+            color: #fff;
+        }
+        .bottom-nav a:hover:not(.active) {
+            color: #0A0A0A;
+        }
+
+        /* ===== GET IN TOUCH ===== */
+        .get-in-touch {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 1000;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: #fff;
+            text-decoration: none;
+            background: #E63946;
+            border-radius: 50px;
+            padding: 12px 24px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.12);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            border: none;
+            cursor: pointer;
+        }
+        .get-in-touch:hover { background: #C62828; }
+
+        /* ===== FOOTER SPACER ===== */
+        .footer-spacer { height: 120px; background: #fff; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .hero { padding: 100px 24px 60px; min-height: auto; }
+            .content-section { padding: 0 24px 48px; }
+            .accordion-header { padding: 20px 20px; }
+            .accordion-header .title { font-size: 1rem; }
+            .accordion-body-inner { padding: 0 20px 20px; }
+        }
+        @media (max-width: 600px) {
+            .get-in-touch { top: 16px; right: 16px; font-size: 0.8rem; padding: 10px 18px; }
+            .bottom-nav { bottom: 16px; }
+            .bottom-nav a { font-size: 0.8rem; padding: 10px 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== TOP BAR ===== -->
+    <div class="top-bar">
+        <a href="../index.html" class="back-link"><span class="arrow">&larr;</span>Home</a>
+    </div>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <div class="hero-inner">
+            <div class="hero-eyebrow">Selected Project &mdash; CRM Architecture</div>
+            <h1>Salesforce CRM Integration</h1>
+            <p>Consolidated three fragmented business models into a single Salesforce ecosystem — bridging Music, Audiobooks, and Podcasts into one unified operation.</p>
+            <div class="hero-tags">
+                <span class="hero-tag">Cross-Functional Alignment</span>
+                <span class="hero-tag">Hands-On Configuration</span>
+                <span class="hero-tag">Project Governance</span>
+                <span class="hero-tag">Timeline Protection</span>
+            </div>
+        </div>
+        <button class="read-more-btn" onclick="revealContent()">
+            Read more
+            <span class="arrow-down">&darr;</span>
+        </button>
+    </section>
+
+    <!-- ===== HIDDEN DETAIL CONTENT ===== -->
+    <div class="detail-content" id="detail-content">
+
+    <!-- ===== CHALLENGE ===== -->
+    <section class="content-section">
+        <div class="content-inner">
+            <div class="section-header-row">
+                <h2 class="section-heading">The Challenge</h2>
+                <button class="hide-btn" onclick="hideContent()"><span class="arrow-up">&uarr;</span>Hide</button>
+            </div>
+            <p><span class="hook">Three separate business units</span> — Music, Audiobooks, and Podcasts — ran entirely different business models, worked through distinct undocumented workflows, and relied on isolated software tools. The management board issued a high-stakes directive: centralize all data and integrate these clashing processes into a single Salesforce CRM to unlock company-wide synergies.</p>
+            <p><span class="hook">Three siloed worlds,</span> one system, zero room for losing what made each unit work.</p>
+        </div>
+    </section>
+
+    <!-- ===== WHAT I DID (accordion) ===== -->
+    <section class="content-section">
+        <div class="content-inner">
+            <h2 class="accordion-title">What I Did</h2>
+            <div class="accordion">
+
+                <!-- Item 1 -->
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span class="label">Role 1</span>
+                        <span class="title">The Translator</span>
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-body">
+                        <div class="accordion-body-inner">
+                            <p><span class="hook">Single point of contact</span> for all three business units. I conducted deep process audits — not just collecting requirements, but sitting across from executives, team leads, and operators to hear what they were <strong>actually worried about</strong>, not only what they said in meetings.</p>
+                            <p><span class="hook">Translated messy real-world realities</span> into clear, structured specifications the external Salesforce consultants could act on. Three divisions, conflicting priorities, one voice.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span class="label">Role 2</span>
+                        <span class="title">The Keeper of Momentum</span>
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-body">
+                        <div class="accordion-body-inner">
+                            <p><span class="hook">Oversaw every dimension</span> of execution: timelines, structured task assignments, agile ticketing, deliverable quality audits, budget tracking, and external invoice reviews.</p>
+                            <p><span class="hook">The discipline was not</span> in updating status reports — it was in knowing when a deadline needed defending and when a team needed breathing room. That is a call a spreadsheet never makes.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span class="label">Role 3</span>
+                        <span class="title">The Builder</span>
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-body">
+                        <div class="accordion-body-inner">
+                            <p><span class="hook">Budget was tight</span> — we could not staff every technical task. So I shadowed the consultants, absorbed their methods, and upskilled rapidly on the platform itself.</p>
+                            <p><span class="hook">I personally configured</span> automated processes, custom workflows, system alerts, email integrations, and executed complex data migrations. By the project's midpoint, I was not just managing the build — I was inside the system, building it.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion(this)">
+                        <span class="label">Role 4</span>
+                        <span class="title">The Roll-Out Architect</span>
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round">
+                            <line x1="12" y1="5" x2="12" y2="19"/>
+                            <line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                    </button>
+                    <div class="accordion-body">
+                        <div class="accordion-body-inner">
+                            <p><span class="hook">Shipping a system is easy.</span> Getting people to use it is the real project. I designed a three-tier training framework:</p>
+                            <ul>
+                                <li><span class="hook">Tier 1 —</span> Company-wide kickoff presentation, framing Salesforce not as "new software to learn" but as a tool that makes daily work easier</li>
+                                <li><span class="hook">Tier 2 —</span> Three live, hands-on sessions, one per division, built around real cases from daily operations — not generic demos</li>
+                                <li><span class="hook">Tier 3 —</span> Advanced administrator training for nominated "Super Users" from each division, so day-to-day maintenance could be fully decentralized</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== IMPACT (always visible) ===== -->
+    <section class="content-section">
+        <div class="content-inner">
+            <h2 class="section-heading">The Impact</h2>
+            <p><span class="hook">Unified Infrastructure —</span> Collapsed three fragmented data environments into a single, high-leverage Salesforce ecosystem, delivering genuine data clarity to the management board.</p>
+            <p><span class="hook">Immediate Cost Savings —</span> Saved significant consulting overhead by personally taking over backend configuration, automation building, and data migration.</p>
+            <p><span class="hook">Zero-Friction Adoption —</span> Achieved total operational self-sufficiency across all three divisions; no consultancy dependency, no internal resistance, smooth transition to the new way of working.</p>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER SPACER ===== -->
+    <div class="footer-spacer"></div>
+
+    </div><!-- /detail-content -->
+
+    <!-- ===== BOTTOM NAVIGATION ===== -->
+    <nav class="bottom-nav">
+        <a href="../index.html">Home</a>
+        <a href="salesforce.html" class="active">Works</a>
+        <a href="../index.html#about">About</a>
+    </nav>
+
+    <!-- ===== GET IN TOUCH ===== -->
+    <a href="../index.html" class="get-in-touch">Get in Touch &rarr;</a>
+
+    <!-- ===== ACCORDION SCRIPT ===== -->
+    <script>
+        function revealContent() {
+            var detail = document.getElementById('detail-content');
+            var btn = document.querySelector('.read-more-btn');
+            detail.classList.add('visible');
+            btn.classList.add('revealed');
+            setTimeout(function() {
+                detail.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        function hideContent() {
+            var detail = document.getElementById('detail-content');
+            var btn = document.querySelector('.read-more-btn');
+            detail.classList.remove('visible');
+            btn.classList.remove('revealed');
+            document.querySelector('.hero').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function toggleAccordion(header) {
+            var item = header.parentElement;
+            var isOpen = item.classList.contains('open');
+
+            // Close all
+            var all = document.querySelectorAll('.accordion-item');
+            all.forEach(function(el) { el.classList.remove('open'); });
+
+            // Open clicked (unless it was already open)
+            if (!isOpen) {
+                item.classList.add('open');
+            }
+        }
+    </script>
+
+</body>
+</html>
